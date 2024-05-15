@@ -1,12 +1,8 @@
 import Button from "./Button"
+import { secondaryButtons } from "../lib/constants"
 
 
-const secondaryButtons = [
-    "Mark all as complete",
-    "Mark all as incomplete",
-    "Reset to initial",
-    "Remove all items"
-]
+
 const ButtonGroup = () => {
 
     return (
