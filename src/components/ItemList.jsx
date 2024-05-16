@@ -1,13 +1,16 @@
 
 
 
-const ItemList = ({ items }) => {
+const ItemList = ({ items, handleRemoveSingleItem, handleSingleIToggleItem }) => {
 
   return (
     <ul>
       {
         items.map((item) => {
-          return <Items key={item.id} item={item} />
+          return <Items
+            handleSingleIToggleItem={handleSingleIToggleItem} handleRemoveSingleItem={handleRemoveSingleItem}
+            key={item.id}
+            item={item} />
         })
       }
 
@@ -17,13 +20,13 @@ const ItemList = ({ items }) => {
 
 export default ItemList
 
-function Items({ item }) {
+function Items({ item, handleRemoveSingleItem, handleSingleIToggleItem }) {
   return (
     <li className="item" >
-      <label >
-        <input type="checkbox" defaultChecked={item.packed} />
+      <label  >
+        <input onChange={() => handleSingleIToggleItem(item.id)} readOnly type="checkbox" checked={item.packed} />
         {item.name}
       </label>
-      <button>  ❌  </button>
+      <button onClick={() => handleRemoveSingleItem(item.id)} >  ❌  </button>
     </li>)
 }
