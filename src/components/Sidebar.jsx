@@ -1,15 +1,13 @@
 import AddItemForm from "./AddItemForm"
 import ButtonGroup from "./ButtonGroup"
+import { useItemsContext } from "../lib/hooks"
 
-const Sidebar = ({ handleAddItem, handleRemoveAllItem, handleResetToInitial, handleMarkAllAsComplete, handleMarkAllAsIncomplete }) => {
+const Sidebar = () => {
+  const { handleAddItem } = useItemsContext()
   return (
     <div className="sidebar">
       <AddItemForm onAddItem={handleAddItem} />
-      <ButtonGroup
-        handleMarkAllAsComplete={handleMarkAllAsComplete}
-        handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
-        handleResetToInitial={handleResetToInitial}
-        handleRemoveAllItem={handleRemoveAllItem} />
+      <ButtonGroup />
     </div>
   )
 }
