@@ -1,7 +1,7 @@
 
-const Button = ({ label, type }) => {
+const Button = ({ label, buttonType, onClick }) => {
     return (
-        <button className={`btn ${type === "secondary" ? 'btn--secondary' : ''}`}>{label}</button>
+        <button onClick={onClick} className={`btn ${buttonType === "secondary" ? 'btn--secondary' : ''}`}>{label}</button>
     )
 }
 
