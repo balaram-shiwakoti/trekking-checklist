@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 import Footer from "./Footer"
@@ -10,7 +10,8 @@ import BackgroundHeading from "./BackgroundHeading"
 
 
 function App() {
-  const [items, setItems] = useState(initialItems)
+  const [items, setItems] = useState(() => JSON.parse(localStorage.getItem('items')) || initialItems)
+
   const handleAddItem = (inputValue) => {
     const newItem = {
       id: new Date().getTime(),
@@ -57,11 +58,19 @@ function App() {
     })
     setItems(newItems)
   }
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items))
+
+  }, [items])
+
   return (
     <>
       <BackgroundHeading />
       <main>
-        <Header />
+        <Header
+          packedItems={items.filter(item => item.packed).length}
+          totalItems={items.length} />
         <ItemList
           handleSingleIToggleItem={handleSingleIToggleItem}
           handleRemoveSingleItem={handleRemoveSingleItem}

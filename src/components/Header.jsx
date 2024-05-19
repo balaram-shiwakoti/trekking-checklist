@@ -1,12 +1,12 @@
 import Counter from "./Counter"
 import Logo from "./Logo"
 
-const Header = () => {
+const Header = ({ totalItems, packedItems }) => {
   return (
     <header>
 
-      <Logo/>
-      <Counter/>
+      <Logo />
+      <Counter packedItems={packedItems} totalItems={totalItems} />
     </header>
   )
 }
