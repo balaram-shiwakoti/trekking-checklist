@@ -1,67 +1,86 @@
-import { useMemo, useState } from "react"
-import EmptyView from "./EmptyView"
-import Select from 'react-select'
-import { useItemsContext } from "../lib/hooks"
+import { useMemo, useState } from "react";
+import Select from "react-select";
+import { useItemsStore } from "../store/itemStore";
 
+import EmptyView from "./EmptyView";
 
-const options = [{
-  value: 'default',
-  label: 'Sort by Default'
-}, {
-  value: 'packed',
-  label: 'Sort by Packed'
-}, {
-  value: 'unpacked',
-  label: 'Sort by Unpacked'
-
-}]
+const options = [
+  {
+    value: "default",
+    label: "Sort by Default",
+  },
+  {
+    value: "packed",
+    label: "Sort by Packed",
+  },
+  {
+    value: "unpacked",
+    label: "Sort by Unpacked",
+  },
+];
 
 const ItemList = () => {
-  const [sortBy, setSortBy] = useState('default')
+  const items = useItemsStore((state) => state.items);
+  const singleToggleItem = useItemsStore((state) => state.singleToggleItem);
+  const removeSingleItem = useItemsStore((state) => state.removeSingleItem);
 
-  const { items, handleSingleIToggleItem, handleRemoveSingleItem } = useItemsContext()
+  const [sortBy, setSortBy] = useState("default");
 
-  const sortedItems = useMemo(() => [...items].sort((a, b) => {
-
-    if (sortBy === 'unpacked') {
-      return a.packed - b.packed
-    }
-    if (sortBy === 'packed') {
-      return b.packed - a.packed
-    }
-    return;
-  }), [items, sortBy])
+  const sortedItems = useMemo(
+    () =>
+      [...items].sort((a, b) => {
+        if (sortBy === "unpacked") {
+          return a.packed - b.packed;
+        }
+        if (sortBy === "packed") {
+          return b.packed - a.packed;
+        }
+        return;
+      }),
+    [items, sortBy]
+  );
 
   return (
     <ul className="item-list">
       {items.length === 0 && <EmptyView />}
-      {items.length > 0 &&
+      {items.length > 0 && (
         <section className="sorting">
-          <Select onChange={options => setSortBy(options.value)} defaultValue={options[0]} options={options} />
+          <Select
+            onChange={(options) => setSortBy(options.value)}
+            defaultValue={options[0]}
+            options={options}
+          />
         </section>
-      }
-      {
-        sortedItems.map((item) => {
-          return <Items
-            handleSingleIToggleItem={handleSingleIToggleItem} handleRemoveSingleItem={handleRemoveSingleItem}
+      )}
+      {sortedItems.map((item) => {
+        return (
+          <Items
+            singleToggleItem={singleToggleItem}
+            removeSingleItem={removeSingleItem}
             key={item.id}
-            item={item} />
-        })
-      }
-
+            item={item}
+          />
+        );
+      })}
     </ul>
-  )
-}
+  );
+};
 
-export default ItemList
+export default ItemList;
 
-function Items({ item, handleRemoveSingleItem, handleSingleIToggleItem }) {
+function Items({ item, removeSingleItem, singleToggleItem }) {
   return (
-    <li className="item" >
-      <label  >
-        <input onChange={() => handleSingleIToggleItem(item.id)} readOnly type="checkbox" checked={item.packed} />
+    <li className="item">
+      <label>
+        <input
+          onChange={() => singleToggleItem(item.id)}
+          readOnly
+          type="checkbox"
+          checked={item.packed}
+        />
         {item.name}
       </label>
-      <button onClick={() => handleRemoveSingleItem(item.id)} >  ❌  </button>
-    </li>)
+      <button onClick={() => removeSingleItem(item.id)}> ❌ </button>
+    </li>
+  );
 }

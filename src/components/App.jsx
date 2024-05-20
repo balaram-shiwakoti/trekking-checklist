@@ -1,30 +1,21 @@
-import Footer from "./Footer"
-import Header from "./Header"
-import Sidebar from "./Sidebar"
-import ItemList from "./ItemList"
-import BackgroundHeading from "./BackgroundHeading"
-import ItemsContextProvider from "../contexts/ItemsContextProvider"
-
+import Footer from "./Footer";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import ItemList from "./ItemList";
+import BackgroundHeading from "./BackgroundHeading";
 
 function App() {
-
-
   return (
     <>
       <BackgroundHeading />
       <main>
-        <ItemsContextProvider>
-          <Header />
-          <ItemList />
-          <Sidebar />
-        </ItemsContextProvider>
-
+        <Header />
+        <ItemList />
+        <Sidebar />
       </main>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
-
-
+export default App;
